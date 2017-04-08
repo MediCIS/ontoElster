@@ -33,7 +33,7 @@ public class OntologyAnnotationsFormatter {
      * @param classes List of classes into the ontology to get annotations
      * @return A list of ClassAnnotations of filtered classes
      */
-    public static List<ClassAnnotations> annotations(final OWLOntology ontology, final List<String> classes) {
+    public static List<ClassAnnotations> getAnnotations(final OWLOntology ontology, final List<String> classes) {
 
         return ontology.classesInSignature()
                 // filter classes by selection list get all fields of annotations

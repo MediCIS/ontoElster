@@ -62,7 +62,7 @@ public class Main {
         manager.saveOntology(subontology, format, target);
 
         // Collection of all annotations by class
-        List<ClassAnnotations> annotations = OntologyAnnotationsFormatter.annotations(subontology, selectedClasses);
+        List<ClassAnnotations> annotations = OntologyAnnotationsFormatter.getAnnotations(subontology, selectedClasses);
 
         // Save collection of annotations into a CSVs
         Path csv = Paths.get("C:\\Users\\medicis\\IdeaProjects\\ontoElster\\src\\main\\java\\excerpt.csv");
