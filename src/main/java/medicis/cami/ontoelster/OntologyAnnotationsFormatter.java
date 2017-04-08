@@ -8,7 +8,7 @@ import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLOntology;
 
 /**
- * Get classes of ontology and writing them into a CVS file.
+ * Get annotations from classes of a given ontology as a collection.
  *
  * @author javier
  */

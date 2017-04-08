@@ -12,6 +12,8 @@ import java.text.MessageFormat;
 import java.util.List;
 
 /**
+ * Simple structure of selected annotations of a ontology class.
+ *
  * @author javier
  */
 public class ClassAnnotations {
@@ -28,6 +30,7 @@ public class ClassAnnotations {
     @Override
     public String toString() {
 
+        // Change default string to fit as a CSV format
         return MessageFormat.format("{0};{1};{2};{3};{4};{5};{6};{7}{8}",
                 uri, en, fr, de, definition, altEn, altFr, altDe, System.lineSeparator());
     }

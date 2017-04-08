@@ -22,10 +22,10 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 
 /**
- * This program filters selected classes from an existing Ontology, saving those
- * in a new (Sub)Ontology File and save them in a CVS file.
- * 
- *  @author chantal
+ * This program filters selected classes from an existing ontology, saving those
+ * in a new ontology file (OWL in RDF/XML format) and also in a CVS file.
+ *
+ * @author chantal
  */
 public class Main {
 

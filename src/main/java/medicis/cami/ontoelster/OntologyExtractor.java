@@ -7,6 +7,7 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 /**
+ * Get a (sub)ontology from a reference using a collection of selected classes.
  *
  * @author chantal
  */
@@ -21,7 +22,7 @@ public class OntologyExtractor {
 
     /**
      * Get a sub-ontology based on a collection of selected classes from a
-     * reference.
+     * reference ontology.
      *
      * The resulting sub-ontology just includes all sub-class axioms and
      * annotations of the reference ontology in the same document format.
