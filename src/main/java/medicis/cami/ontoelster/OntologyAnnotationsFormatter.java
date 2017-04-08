@@ -1,12 +1,5 @@
 package medicis.cami.ontoelster;
 
-import java.io.BufferedWriter;
-import java.nio.file.Files;
-import java.nio.file.OpenOption;
-import java.nio.file.Path;
-import static java.nio.file.StandardOpenOption.CREATE;
-import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
-import static java.nio.file.StandardOpenOption.WRITE;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.semanticweb.owlapi.model.IRI;
@@ -96,26 +89,5 @@ public class OntologyAnnotationsFormatter {
                     return classAnnotations;
                 })
                 .collect(Collectors.toList());
-    }
-
-    /**
-     * Print a collection of ClassAnnotations in to a file.
-     *
-     * @param file Path to a file system file
-     * @param annotations List of ClassAnnotations to print
-     * @throws java.io.IOException
-     */
-    public static void print(final Path file, final List<ClassAnnotations> annotations)
-            throws
-            java.io.IOException {
-
-        OpenOption[] options = new OpenOption[]{WRITE, CREATE, TRUNCATE_EXISTING};
-        try (BufferedWriter writer = Files.newBufferedWriter(file, options)) {
-
-            for (ClassAnnotations annotation : annotations) {
-
-                writer.write(annotation.toString());
-            }
-        }
     }
 }

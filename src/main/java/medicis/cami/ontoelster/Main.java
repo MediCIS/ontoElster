@@ -66,6 +66,6 @@ public class Main {
 
         // Save collection of annotations into a CSVs
         Path csv = Paths.get("C:\\Users\\medicis\\IdeaProjects\\ontoElster\\src\\main\\java\\excerpt.csv");
-        OntologyAnnotationsFormatter.print(csv, annotations);
+        ClassAnnotations.print(csv, annotations);
     }
 }
