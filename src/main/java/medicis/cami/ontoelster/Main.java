@@ -30,12 +30,16 @@ import org.semanticweb.owlapi.model.OWLOntologyLoaderConfiguration;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 
-
 /**
- * This program filters selected classes from an existing Ontology, saving those in a new (Sub)Ontology File and save them in a CVS file.
- * Created by Chantal and Javier on 4/6/2017.
+ * This program filters selected classes from an existing Ontology, saving those
+ * in a new (Sub)Ontology File and save them in a CVS file. Created by Chantal
+ * and Javier on 4/6/2017.
  */
 public class Main {
+
+    public static IRI DEFINITION = IRI.create("http://purl.obolibrary.org/obo/IAO_0000115");
+    public static IRI ALT_LABEL = IRI.create("http://www.w3.org/2004/02/skos/core#altLabel");
+    public static IRI PREF_LABEL = IRI.create("http://www.w3.org/2004/02/skos/core#prefLabel");
 
     public static void main(String... arguments)
             throws OWLOntologyCreationException, IOException, OWLOntologyStorageException {
@@ -62,20 +66,21 @@ public class Main {
         ontology.classesInSignature()
                 // Filter selected classes from the Ontology
                 .filter(c -> selectedClasses.contains(c.getIRI().toURI().getFragment()))
-                .forEach(c ->
-                {
+                .forEach(c -> {
+
                     // Get subclasses of current ontology class and add to the excerpt ontology
                     ontology.subClassAxiomsForSubClass(c)
-                            .forEach(sc -> {
-                                AddAxiom addAxiom = new AddAxiom(excerptOntology, sc);
-                                manager.applyChange(addAxiom);
-                            });
+                    .forEach(sc -> {
+                        AddAxiom addAxiom = new AddAxiom(excerptOntology, sc);
+                        manager.applyChange(addAxiom);
+                    });
+
                     //Get all annotations of the current class and add to the excerpt ontology
                     ontology.annotationAssertionAxioms(c.getIRI())
-                            .forEach(ca -> {
-                                AddAxiom addAxiom = new AddAxiom(excerptOntology, ca);
-                                manager.applyChange(addAxiom);
-                            });
+                    .forEach(ca -> {
+                        AddAxiom addAxiom = new AddAxiom(excerptOntology, ca);
+                        manager.applyChange(addAxiom);
+                    });
                 });
 
         File file = new File("C:\\Users\\medicis\\IdeaProjects\\ontoElster\\src\\main\\java\\excerpt.owl");
@@ -83,60 +88,65 @@ public class Main {
         OWLOntologyDocumentTarget target = new FileDocumentTarget(file);
         manager.saveOntology(excerptOntology, format, target);
 
-        IRI definition = IRI.create("http://purl.obolibrary.org/obo/IAO_0000115");
-        IRI altLabel = IRI.create("http://www.w3.org/2004/02/skos/core#altLabel");
-        IRI prefLabel = IRI.create("http://www.w3.org/2004/02/skos/core#prefLabel");
         // Collection of all annotations by class
         List<ClassAnnotations> annotations = new ArrayList<>();
         // Get classes of SubOntology and writing them into a CVS file
         excerptOntology.classesInSignature()
-
                 // filter classes by selection list get all fields of annotations
                 .filter(c -> selectedClasses.contains(c.getIRI().toURI().getFragment()))
                 .forEach(c -> {
+
                     ClassAnnotations ann = new ClassAnnotations();
                     ann.setUri(c.getIRI().toURI());
                     excerptOntology.annotationAssertionAxioms(c.getIRI())
-                            .forEach(ca -> {
+                    .forEach(ca -> {
 
-                                OWLAnnotation annotation = ca.getAnnotation();
-                                IRI property = annotation.getProperty().getIRI();
-                                OWLLiteral value = annotation.getValue().asLiteral().get();
+                        OWLAnnotation annotation = ca.getAnnotation();
+                        IRI property = annotation.getProperty().getIRI();
+                        OWLLiteral value = annotation.getValue().asLiteral().get();
 
-                                // Get labels by language
-                                if (property.equals(prefLabel)) {
-                                    String literal = value.getLiteral();
-                                    String language = value.getLang();
-                                    if (language.equals("fr")) {
-                                        ann.setFr(literal);
-                                    } else if (language.equals("de")) {
-                                        ann.setDe(literal);
-                                    } else if (language.equals("en")) {
-                                        ann.setEn(literal);
-                                    }
-                                }
+                        // Get labels by language
+                        if (property.equals(PREF_LABEL)) {
+                            String literal = value.getLiteral();
+                            String language = value.getLang();
+                            switch (language) {
+                                case "fr":
+                                    ann.setFr(literal);
+                                    break;
+                                case "de":
+                                    ann.setDe(literal);
+                                    break;
+                                case "en":
+                                    ann.setEn(literal);
+                                    break;
+                            }
+                        }
 
-                                // Get alternative labels by language
-                                if (property.equals(altLabel)) {
-                                    String literal = value.getLiteral();
-                                    String language = value.getLang();
-                                    if (language.equals("fr")) {
-                                        ann.setAltFr(literal);
-                                    } else if (language.equals("de")) {
-                                        ann.setAltDe(literal);
-                                    } else if (language.equals("en")) {
-                                        ann.setAltEn(literal);
-                                    }
-                                }
+                        // Get alternative labels by language
+                        if (property.equals(ALT_LABEL)) {
+                            String literal = value.getLiteral();
+                            String language = value.getLang();
+                            switch (language) {
+                                case "fr":
+                                    ann.setAltFr(literal);
+                                    break;
+                                case "de":
+                                    ann.setAltDe(literal);
+                                    break;
+                                case "en":
+                                    ann.setAltEn(literal);
+                                    break;
+                            }
+                        }
 
-                                // Get definition and reformatting text
-                                if (property.equals(definition)) {
+                        // Get definition and reformatting text
+                        if (property.equals(DEFINITION)) {
 
-                                    // Replacing new lines by spaces
-                                    String literal = value.getLiteral().replaceAll("[\\t|\\r?\\n]+", " ");
-                                    ann.setDefinition(literal);
-                                }
-                            });
+                            // Replacing new lines by spaces
+                            String literal = value.getLiteral().replaceAll("[\\t|\\r?\\n]+", " ");
+                            ann.setDefinition(literal);
+                        }
+                    });
                     annotations.add(ann);
                 });
 
@@ -144,8 +154,9 @@ public class Main {
         Path csv = Paths.get("C:\\Users\\medicis\\IdeaProjects\\ontoElster\\src\\main\\java\\excerpt.csv");
         OpenOption[] options = new OpenOption[]{WRITE, CREATE, TRUNCATE_EXISTING};
         try (BufferedWriter writer = Files.newBufferedWriter(csv, options)) {
-            for (ClassAnnotations annotation : annotations)
+            for (ClassAnnotations annotation : annotations) {
                 writer.write(annotation.toString());
+            }
         }
     }
 }

@@ -1,3 +1,5 @@
+package medicis.cami.ontoelster;
+
 import java.net.URI;
 import java.text.MessageFormat;
 
