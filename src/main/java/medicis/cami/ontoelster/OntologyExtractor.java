@@ -32,6 +32,7 @@ public class OntologyExtractor {
         this.reference = ontology;
         this.manager = OWLManager.createOWLOntologyManager();
         this.subontology = manager.createOntology(ontology.getOntologyID().getOntologyIRI().get());
+
     }
 
     /**

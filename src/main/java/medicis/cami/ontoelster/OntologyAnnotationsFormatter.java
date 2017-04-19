@@ -31,6 +31,7 @@ public class OntologyAnnotationsFormatter {
         return ontology.classesInSignature()
                 // filter classes by selection list get all fields of annotations
                 .filter(c -> classes.contains(c.getIRI()))
+
                 .map(c -> {
 
                     ClassAnnotations classAnnotations = new ClassAnnotations();
