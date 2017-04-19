@@ -64,6 +64,13 @@ public class OntologyExtractor {
                 });
     }
 
+    /**
+     * Use a stream to apply changes into the sub-ontology member class.
+     *
+     * @param <T> Sub-type of OWLAxiom.
+     * @param stream Stream from where the axioms are obtained and update the
+     * changes using the manager of the class.
+     */
     private <T extends OWLAxiom> void addAxioms(Stream<T> stream) {
 
         stream.forEach(a -> {
@@ -73,16 +80,28 @@ public class OntologyExtractor {
         });
     }
 
+    /**
+     * Save the sub-ontology into a file as RDF document.
+     *
+     * @param path Destination file system path of the ontology.
+     * @throws org.semanticweb.owlapi.model.OWLOntologyStorageException
+     */
     public void saveOntology(final Path path)
             throws
             org.semanticweb.owlapi.model.OWLOntologyStorageException {
 
-        // Save the subontology into a file as RDF document       
         OWLDocumentFormat format = new RDFXMLDocumentFormat();
         OWLOntologyDocumentTarget target = new FileDocumentTarget(path.toFile());
         manager.saveOntology(subontology, format, target);
     }
 
+    /**
+     * Export the sub-ontology as a comma-separated values file.
+     *
+     * @param path Destination path of the CSV file.
+     * @param classes List of classes to export into the CSV file.
+     * @throws java.io.IOException
+     */
     public void exportAsCSV(final Path path, final List<IRI> classes)
             throws
             java.io.IOException {

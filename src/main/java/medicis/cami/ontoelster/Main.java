@@ -54,6 +54,13 @@ public class Main {
         extractor.exportAsCSV(csv, selection);
     }
 
+    /**
+     * Get list of IRIs as Strings and convert them to IRIs
+     *
+     * @param path Path of where the list of classes names (IRIs) are located.
+     * @return A list of IRIs mapped from the input file.
+     * @throws java.io.IOException
+     */
     private static List<IRI> getIRIs(Path path)
             throws
             java.io.IOException {
