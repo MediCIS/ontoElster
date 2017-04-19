@@ -1,5 +1,6 @@
 package medicis.cami.ontoelster;
 
+import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.semanticweb.owlapi.model.IRI;
@@ -12,26 +13,28 @@ import org.semanticweb.owlapi.model.OWLOntology;
  *
  * @author javier
  */
-public class OntologyAnnotationsFormatter {
+public class OntologyFormatter {
 
     public static IRI DEFINITION = IRI.create("http://purl.obolibrary.org/obo/IAO_0000115");
     public static IRI ALT_LABEL = IRI.create("http://www.w3.org/2004/02/skos/core#altLabel");
     public static IRI PREF_LABEL = IRI.create("http://www.w3.org/2004/02/skos/core#prefLabel");
 
+    private final OWLOntology ontology;
+
+    public OntologyFormatter(OWLOntology ontology) {
+
+        this.ontology = ontology;
+    }
+
     /**
      * Obtain definition (IAO_0000115) and labels (SKOS "prefLabel", and
      * "altLabel") annotations in German, English, and French.
      *
-     * @param ontology Reference from which annotations are extracted
-     * @param classes List of classes into the ontology to get annotations
      * @return A list of ClassAnnotations of filtered classes
      */
-    public static List<ClassAnnotations> getAnnotations(final OWLOntology ontology, final List<IRI> classes) {
+    private List<ClassAnnotations> getAnnotations() {
 
         return ontology.classesInSignature()
-                // filter classes by selection list get all fields of annotations
-                .filter(c -> classes.contains(c.getIRI()))
-
                 .map(c -> {
 
                     ClassAnnotations classAnnotations = new ClassAnnotations();
@@ -90,5 +93,22 @@ public class OntologyAnnotationsFormatter {
                     return classAnnotations;
                 })
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * Export the sub-ontology as a comma-separated values file.
+     *
+     * @param path Destination path of the CSV file.
+     * @throws java.io.IOException
+     */
+    public void exportAsCSV(final Path path)
+            throws
+            java.io.IOException {
+
+        // Collection of all annotations by class filtering
+        List<ClassAnnotations> annotations = getAnnotations();
+
+        // Save collection of annotations into a CSV file        
+        ClassAnnotations.print(path, annotations);
     }
 }

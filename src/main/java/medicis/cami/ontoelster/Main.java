@@ -6,10 +6,13 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.io.IRIDocumentSource;
+import org.semanticweb.owlapi.io.OWLOntologyDocumentSource;
 import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.MissingImportHandlingStrategy;
 import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyLoaderConfiguration;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
-
 
 /**
  * This program filters selected classes from an existing ontology, saving those
@@ -27,17 +30,18 @@ public class Main {
 
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 
+//        // Load ontology from local file
+//        Path path = Paths.get("C:\\Users\\medicis\\Documents\\Data\\OWLs\\151112_OntoSPM_RDF2.owl");
+//        IRI iri = IRI.create(path.toFile());
         // Load ontology from Web
         IRI iri = IRI.create("http://neurolog.unice.fr/ontoneurolog/v3.1/instrument.owl");
-        OWLOntology ontology = manager.loadOntologyFromOntologyDocument(iri);
+        OWLOntologyDocumentSource source = new IRIDocumentSource(iri);
 
-//        // Load ontology from local file
-//        File ontologyFile = new File("C:\\Users\\medicis\\Documents\\Data\\OWLs\\151112_OntoSPM_RDF2.owl");
-//        OWLOntologyDocumentSource source = new FileDocumentSource(ontologyFile);
-//        // ignore imports while loading
-//        OWLOntologyLoaderConfiguration configuration = new OWLOntologyLoaderConfiguration();
-//        configuration = configuration.setMissingImportHandlingStrategy(MissingImportHandlingStrategy.SILENT);
-//        OWLOntology ontology = manager.loadOntologyFromOntologyDocument(ontology);
+        // ignore imports while loading
+        OWLOntologyLoaderConfiguration configuration = new OWLOntologyLoaderConfiguration();
+        configuration = configuration.setMissingImportHandlingStrategy(MissingImportHandlingStrategy.SILENT);
+        OWLOntology ontology = manager.loadOntologyFromOntologyDocument(source, configuration);
+
         // Read file with selected classes
         Path txt = Paths.get("src", "main", "resources", "classes.txt");
         List<IRI> selection = getIRIs(txt);
@@ -46,13 +50,17 @@ public class Main {
         OntologyExtractor extractor = new OntologyExtractor(ontology);
         extractor.extractSubOntology(selection);
 
+        String path = iri.toURI().getPath();
+        String basename = path.substring(path.lastIndexOf("/") + 1, path.lastIndexOf(".") + 1);
+
         // Save the subontology into a file as RDF document
-        Path owl = Paths.get("instrument.owl");
+        Path owl = Paths.get(basename + "owl");
         extractor.saveOntology(owl);
 
-        // Save annotations into a CSV file
-        Path csv = Paths.get("instrument.csv");
-        extractor.exportAsCSV(csv, selection);
+        // Save annotations into a CSV file   
+        OntologyFormatter formatter = new OntologyFormatter(extractor.getSubOntology());
+        Path csv = Paths.get(basename + "csv");
+        formatter.exportAsCSV(csv);
     }
 
     /**

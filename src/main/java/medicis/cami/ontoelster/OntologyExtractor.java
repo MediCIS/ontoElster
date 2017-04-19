@@ -25,6 +25,11 @@ public class OntologyExtractor {
     private final OWLOntology reference;
     private final OWLOntology subontology;
 
+    public OWLOntology getSubOntology() {
+
+        return subontology;
+    }
+
     public OntologyExtractor(final OWLOntology ontology)
             throws
             org.semanticweb.owlapi.model.OWLOntologyCreationException {
@@ -94,23 +99,5 @@ public class OntologyExtractor {
         OWLDocumentFormat format = new RDFXMLDocumentFormat();
         OWLOntologyDocumentTarget target = new FileDocumentTarget(path.toFile());
         manager.saveOntology(subontology, format, target);
-    }
-
-    /**
-     * Export the sub-ontology as a comma-separated values file.
-     *
-     * @param path Destination path of the CSV file.
-     * @param classes List of classes to export into the CSV file.
-     * @throws java.io.IOException
-     */
-    public void exportAsCSV(final Path path, final List<IRI> classes)
-            throws
-            java.io.IOException {
-
-        // Collection of all annotations by class filtering
-        List<ClassAnnotations> annotations = OntologyAnnotationsFormatter.getAnnotations(subontology, classes);
-
-        // Save collection of annotations into a CSV file        
-        ClassAnnotations.print(path, annotations);
     }
 }
