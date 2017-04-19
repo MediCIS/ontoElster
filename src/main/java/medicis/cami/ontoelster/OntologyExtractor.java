@@ -1,8 +1,16 @@
 package medicis.cami.ontoelster;
 
+import java.nio.file.Path;
 import java.util.List;
+import java.util.stream.Stream;
+import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.formats.RDFXMLDocumentFormat;
+import org.semanticweb.owlapi.io.FileDocumentTarget;
+import org.semanticweb.owlapi.io.OWLOntologyDocumentTarget;
 import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLDocumentFormat;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
@@ -14,10 +22,16 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
 public class OntologyExtractor {
 
     private final OWLOntologyManager manager;
+    private final OWLOntology reference;
+    private final OWLOntology subontology;
 
-    public OntologyExtractor(final OWLOntologyManager manager) {
+    public OntologyExtractor(final OWLOntology ontology)
+            throws
+            org.semanticweb.owlapi.model.OWLOntologyCreationException {
 
-        this.manager = manager;
+        this.reference = ontology;
+        this.manager = OWLManager.createOWLOntologyManager();
+        this.subontology = manager.createOntology(ontology.getOntologyID().getOntologyIRI().get());
     }
 
     /**
@@ -27,41 +41,56 @@ public class OntologyExtractor {
      * The resulting sub-ontology just includes all sub-class axioms and
      * annotations of the reference ontology in the same document format.
      *
-     * @param ontology Reference ontology
-     * @param iri IRI of created sub-ontology
      * @param classes List of selected classes
-     * @return an ontology containing the selected classes
      * @throws org.semanticweb.owlapi.model.OWLOntologyCreationException
      */
-    public OWLOntology getSubontology(final OWLOntology ontology, final IRI iri, final List<String> classes)
+    public void extractSubOntology(final List<IRI> classes)
             throws
             org.semanticweb.owlapi.model.OWLOntologyCreationException {
 
-        OWLOntology subontology = manager.createOntology(iri);
-
         // Get all declared classes of the ontology
-        ontology.classesInSignature()
+        reference.classesInSignature()
                 // Filter selected classes from the Ontology
-                .filter(c -> classes.contains(c.getIRI().toURI().getFragment()))
+                .filter(c -> classes.contains(c.getIRI()))
                 .forEach(c -> {
 
                     // Get subclasses of current ontology class and add to the excerpt ontology
-                    ontology.subClassAxiomsForSubClass(c)
-                    .forEach(sc -> {
-
-                        AddAxiom addAxiom = new AddAxiom(subontology, sc);
-                        manager.applyChange(addAxiom);
-                    });
+                    Stream subclasses = reference.subClassAxiomsForSubClass(c);
+                    addAxioms(subclasses);
 
                     //Get all annotations of the current class and add to the excerpt ontology
-                    ontology.annotationAssertionAxioms(c.getIRI())
-                    .forEach(ca -> {
-
-                        AddAxiom addAxiom = new AddAxiom(subontology, ca);
-                        manager.applyChange(addAxiom);
-                    });
+                    Stream annotations = reference.annotationAssertionAxioms(c.getIRI());
+                    addAxioms(annotations);
                 });
+    }
 
-        return subontology;
+    private <T extends OWLAxiom> void addAxioms(Stream<T> stream) {
+
+        stream.forEach(a -> {
+
+            AddAxiom addAxiom = new AddAxiom(subontology, a);
+            manager.applyChange(addAxiom);
+        });
+    }
+
+    public void saveOntology(final Path path)
+            throws
+            org.semanticweb.owlapi.model.OWLOntologyStorageException {
+
+        // Save the subontology into a file as RDF document       
+        OWLDocumentFormat format = new RDFXMLDocumentFormat();
+        OWLOntologyDocumentTarget target = new FileDocumentTarget(path.toFile());
+        manager.saveOntology(subontology, format, target);
+    }
+
+    public void exportAsCSV(final Path path, final List<IRI> classes)
+            throws
+            java.io.IOException {
+
+        // Collection of all annotations by class filtering
+        List<ClassAnnotations> annotations = OntologyAnnotationsFormatter.getAnnotations(subontology, classes);
+
+        // Save collection of annotations into a CSV file        
+        ClassAnnotations.print(path, annotations);
     }
 }
