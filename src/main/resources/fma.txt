@@ -1,0 +1,7 @@
+http://purl.obolibrary.org/obo/FMA_9713
+http://purl.obolibrary.org/obo/FMA_9714
+# following required to get all hierarchy 
+http://purl.obolibrary.org/obo/FMA_7185
+http://purl.obolibrary.org/obo/FMA_7186
+http://purl.obolibrary.org/obo/FMA_24878
+http://purl.obolibrary.org/obo/FMA_256133
