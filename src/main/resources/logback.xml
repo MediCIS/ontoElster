@@ -10,6 +10,9 @@
     </logger>   
     <logger name="org.eclipse.rdf4j.rio" level="WARN">
         <appender-ref ref="STDOUT" />
+    </logger> 
+    <logger name="org.xml.sax" level="WARN">
+        <appender-ref ref="STDOUT" />
     </logger>       
     <root level="DEBUG">
         <appender-ref ref="STDOUT" />

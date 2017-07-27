@@ -1,13 +1,12 @@
-package medicis.cami.ontoelster;
+package fr.inserm.ltsi.medicis.ontoelster;
 
 import java.util.List;
 import java.util.stream.Stream;
 import org.semanticweb.owlapi.model.IRI;
 
 /**
- * Get a (sub)ontology from a reference using a collection of selected classes.
  *
- * @author chantal
+ * @author javier
  */
 public class OntologyExtractorWithEquivalences
         extends AbstractOntologyExtractor
@@ -19,16 +18,6 @@ public class OntologyExtractorWithEquivalences
         super(iri);
     }
 
-    /**
-     * Get a sub-ontology based on a collection of selected classes from a
-     * reference ontology.
-     *
-     * The resulting sub-ontology just includes all sub-class axioms and
-     * annotations of the reference ontology in the same document format.
-     *
-     * @param classes List of selected classes
-     * @throws org.semanticweb.owlapi.model.OWLOntologyCreationException
-     */
     @Override
     public void extractOntology(final List<IRI> classes)
             throws

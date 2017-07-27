@@ -1,4 +1,4 @@
-package medicis.cami.ontoelster;
+package fr.inserm.ltsi.medicis.ontoelster;
 
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.io.IRIDocumentSource;

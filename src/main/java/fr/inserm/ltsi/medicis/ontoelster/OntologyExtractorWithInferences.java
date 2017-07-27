@@ -1,4 +1,4 @@
-package medicis.cami.ontoelster;
+package fr.inserm.ltsi.medicis.ontoelster;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -11,9 +11,12 @@ import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
 /**
- * Get a (sub)ontology from a reference using a collection of selected classes.
+ * Get the (sub)ontology with a ontology reasoner.
  *
- * @author chantal
+ * The ontology includes the selected classes and their super classes in
+ * hierarchy.
+ *
+ * @author javier
  */
 public class OntologyExtractorWithInferences
         extends AbstractOntologyExtractor
@@ -34,13 +37,14 @@ public class OntologyExtractorWithInferences
         //Reasoner.ReasonerFactory().createReasoner(ontology);
     }
 
-     @Override
+    @Override
     public void extractOntology(final List<IRI> classes)
             throws
             org.semanticweb.owlapi.model.OWLOntologyCreationException {
 
         super.extractOntology(classes);
 
+        // extract also the equivalent classes
         Stream stream = classes.stream()
                 .map(facility::createOntologyClass)
                 .flatMap(reference::equivalentClassesAxioms);
@@ -55,7 +59,6 @@ public class OntologyExtractorWithInferences
 //                .collect(Collectors.toList());
 //
 //        super.extractOntology(equivalent);
-
         List<IRI> superclasses = classes.stream()
                 .map(facility::createOntologyClass)
                 .flatMap(c -> reasoner.getSuperClasses(c).entities())

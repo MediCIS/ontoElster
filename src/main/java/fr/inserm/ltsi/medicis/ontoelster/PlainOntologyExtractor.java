@@ -1,11 +1,10 @@
-package medicis.cami.ontoelster;
+package fr.inserm.ltsi.medicis.ontoelster;
 
 import org.semanticweb.owlapi.model.IRI;
 
 /**
- * Get a (sub)ontology from a reference using a collection of selected classes.
  *
- * @author chantal
+ * @author javier
  */
 public class PlainOntologyExtractor
         extends AbstractOntologyExtractor
@@ -14,6 +13,6 @@ public class PlainOntologyExtractor
     public PlainOntologyExtractor(final IRI iri)
             throws
             org.semanticweb.owlapi.model.OWLOntologyCreationException {
-        super(iri);      
+        super(iri);
     }
 }

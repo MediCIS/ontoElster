@@ -1,4 +1,4 @@
-package medicis.cami.ontoelster;
+package fr.inserm.ltsi.medicis.ontoelster;
 
 import java.nio.file.Path;
 import java.util.List;
@@ -15,17 +15,28 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 /**
+ * Get a (sub)ontology from a reference using a collection of selected classes. 
  *
  * @author chantal
  */
 public abstract class AbstractOntologyExtractor
         implements OntologyExtractor {
 
+    // manager to contain and save the ontology
     protected final OWLOntologyManager manager;
+    // target ontology from where classes are extracted
     protected final OWLOntology reference;
+    // resulting ontology containg extracted classes
     protected final OWLOntology ontology;
+    // utility to configure and load an ontology
     protected final OntologyFacility facility;
 
+    /**
+     * Initialize class properties and create the (empty) sub-ontology.
+     *
+     * @param iri
+     * @throws org.semanticweb.owlapi.model.OWLOntologyCreationException
+     */
     public AbstractOntologyExtractor(final IRI iri)
             throws
             org.semanticweb.owlapi.model.OWLOntologyCreationException {
@@ -36,6 +47,12 @@ public abstract class AbstractOntologyExtractor
         ontology = manager.createOntology(reference.getOntologyID());
     }
 
+    /**
+     * Get the resulting ontology (aka sub-ontology) containing the extracted
+     * classes.
+     *
+     * @return Sub-ontology with extracted classes
+     */
     @Override
     public final OWLOntology getOntology() {
 
@@ -62,8 +79,8 @@ public abstract class AbstractOntologyExtractor
      * Get a sub-ontology based on a collection of selected classes from a
      * reference ontology.
      *
-     * The resulting sub-ontology just includes all sub-class axioms and
-     * annotations of the reference ontology in the same document format.
+     * The resulting sub-ontology includes declaration axioms, all sub-class
+     * axioms, and annotations of the reference ontology in the same document
      *
      * @param classes List of selected classes
      * @throws org.semanticweb.owlapi.model.OWLOntologyCreationException
