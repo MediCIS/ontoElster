@@ -3,7 +3,6 @@ package fr.inserm.ltsi.medicis.ontoelster;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.semanticweb.HermiT.ReasonerFactory;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
@@ -14,7 +13,8 @@ import org.semanticweb.owlapi.reasoner.OWLReasoner;
  * Get the (sub)ontology with a ontology reasoner.
  *
  * The ontology includes the selected classes and their super classes in
- * hierarchy.
+ * hierarchy. By default the Hermit reasoner is hard coded but it may changed
+ * by changing the Reasoner implementation value.
  *
  * @author javier
  */
@@ -29,12 +29,8 @@ public class OntologyExtractorWithInferences
             org.semanticweb.owlapi.model.OWLOntologyCreationException {
         super(iri);
 
-        ReasonerFactory factory = new ReasonerFactory();
+        ReasonerFactory factory = ReasonerFactory.getInstance(ReasonerImplementation.HERMIT);
         reasoner = factory.createReasoner(reference);
-
-        //TODO try another reasoner 
-        //OWLReasonerFactory reasonerFactory = Reasoner//PelletReasonerFactory.getInstance();
-        //Reasoner.ReasonerFactory().createReasoner(ontology);
     }
 
     @Override

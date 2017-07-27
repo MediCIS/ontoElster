@@ -45,7 +45,6 @@ public class Main {
      * @throws org.semanticweb.owlapi.model.OWLOntologyStorageException
      */
     public static void process(IRI ontology, List<IRI> classes, OntologyExtractor extractor)
-            // TODO remove extractor from signature
             throws
             org.semanticweb.owlapi.model.OWLOntologyCreationException,
             org.semanticweb.owlapi.model.OWLOntologyStorageException {
@@ -74,19 +73,9 @@ public class Main {
         OntologyExtractor extractor = new OntologyExtractorWithEquivalences(ontology);
         if (arguments.length > 2) {
 
-            int extractionLevel = Integer.valueOf(arguments[2]);
-            switch (extractionLevel) {
-
-                case 0:
-                    extractor = new PlainOntologyExtractor(ontology);
-                    break;
-                case 1:
-                    extractor = new OntologyExtractorWithEquivalences(ontology);
-                    break;
-                case 2:
-                    extractor = new OntologyExtractorWithInferences(ontology);
-                    break;
-            }
+            byte level = Byte.valueOf(arguments[2]);
+            OntologyExtractorFactory factory = new OntologyExtractorFactory(ontology);
+            extractor = factory.getOntologyExtractor(level);
         }
 
         // Extract and save ontology
