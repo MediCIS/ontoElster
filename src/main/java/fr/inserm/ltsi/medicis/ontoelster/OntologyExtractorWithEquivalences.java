@@ -9,8 +9,7 @@ import org.semanticweb.owlapi.model.IRI;
  * @author javier
  */
 public class OntologyExtractorWithEquivalences
-        extends AbstractOntologyExtractor
-        implements OntologyExtractor {
+        extends PlainOntologyExtractor {
 
     public OntologyExtractorWithEquivalences(final IRI iri)
             throws

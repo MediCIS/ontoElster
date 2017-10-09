@@ -13,23 +13,22 @@ import org.semanticweb.owlapi.reasoner.OWLReasoner;
  * Get the (sub)ontology with a ontology reasoner.
  *
  * The ontology includes the selected classes and their super classes in
- * hierarchy. By default the Hermit reasoner is hard coded but it may changed
- * by changing the Reasoner implementation value.
+ * hierarchy. By default the Hermit reasoner is hard coded but it may changed by
+ * changing the Reasoner implementation value.
  *
  * @author javier
  */
 public class OntologyExtractorWithInferences
-        extends AbstractOntologyExtractor
-        implements OntologyExtractor {
+        extends PlainOntologyExtractor {
 
     private final OWLReasoner reasoner;
 
-    public OntologyExtractorWithInferences(final IRI iri)
+    public OntologyExtractorWithInferences(final IRI iri, final ReasonerImplementation implementation)
             throws
             org.semanticweb.owlapi.model.OWLOntologyCreationException {
         super(iri);
 
-        ReasonerFactory factory = ReasonerFactory.getInstance(ReasonerImplementation.HERMIT);
+        ReasonerFactory factory = ReasonerFactory.getInstance(implementation);
         reasoner = factory.createReasoner(reference);
     }
 

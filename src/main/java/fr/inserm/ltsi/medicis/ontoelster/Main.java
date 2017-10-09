@@ -70,11 +70,18 @@ public class Main {
         Path file = Paths.get(arguments[1]);
         List<IRI> classes = getIRIs(file);
         // Instantiate a default extractor
-        OntologyExtractor extractor = new OntologyExtractorWithEquivalences(ontology);
+        OntologyExtractorFactory factory = new OntologyExtractorFactory(ontology);
+        OntologyExtractor extractor = factory.getOntologyExtractor(0);
         if (arguments.length > 2) {
 
-            byte level = Byte.valueOf(arguments[2]);
-            OntologyExtractorFactory factory = new OntologyExtractorFactory(ontology);
+            int level = Integer.valueOf(arguments[2]);
+            if (arguments.length > 3) {
+
+                // Define a reasoner explicitly from CLI
+                ReasonerImplementation implementation = ReasonerImplementation.valueOf(arguments[3]);
+                factory.setImplementation(implementation);
+            }
+
             extractor = factory.getOntologyExtractor(level);
         }
 
