@@ -1,0 +1,13 @@
+http://medicis.univ-rennes1.fr/ontologies/ontos3pm/OntoS3PM.owl#changing_hands
+http://medicis.univ-rennes1.fr/ontologies/ontos3pm/OntoS3PM.owl#checking_state_of_the_paper_filters_of_a_sterilization_container
+http://medicis.univ-rennes1.fr/ontologies/ontos3pm/OntoS3PM.owl#disassemble_an_object
+http://medicis.univ-rennes1.fr/ontologies/ontos3pm/OntoS3PM.owl#pouring_the_content_of_a_container_into_another_container
+http://medicis.univ-rennes1.fr/ontologies/ontos3pm/OntoS3PM.owl#extracting_the_content_of_a_container_into_another_container
+http://medicis.univ-rennes1.fr/ontologies/ontos3pm/OntoS3PM.owl#folding_a_drape_to_cover_its_content
+http://medicis.univ-rennes1.fr/ontologies/ontos3pm/OntoS3PM.owl#kneading_bone_wax
+http://medicis.univ-rennes1.fr/ontologies/ontos3pm/OntoS3PM.owl#unfolding_an_object
+http://medicis.univ-rennes1.fr/ontologies/ontos3pm/OntoS3PM.owl#unpacking_an_object
+# required to have proper class hierarchy 
+http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoSPM.owl#observation_by_human
+http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoSPM.owl#assessing_by_a_human
+http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoSPM.owl#deforming_an_object
