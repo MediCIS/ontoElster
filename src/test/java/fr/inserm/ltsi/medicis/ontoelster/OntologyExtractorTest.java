@@ -1,14 +1,14 @@
 package fr.inserm.ltsi.medicis.ontoelster;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
 import org.semanticweb.owlapi.model.IRI;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+
 /**
- *
  * @author javier
  */
 public class OntologyExtractorTest {
@@ -20,14 +20,14 @@ public class OntologyExtractorTest {
         final Path directory = Paths.get("src", "test", "resources");
 
         return new Object[][]{
-            {IRI.create("http://neurolog.unice.fr/ontoneurolog/v3.1/instrument.owl"),
-                directory.resolve("instrument.txt")},
-            {IRI.create("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoSPM.owl"),
-                directory.resolve("ontospm.txt")},
-            {IRI.create("http://purl.obolibrary.org/obo/fma.owl"),
-                directory.resolve("fma.txt")},
-            {IRI.create(local.toFile()),
-                directory.resolve("ontos3pm.txt")}
+                {IRI.create("http://neurolog.unice.fr/ontoneurolog/v3.1/instrument.owl"),
+                        directory.resolve("instrument.txt")},
+                {IRI.create("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoSPM.owl"),
+                        directory.resolve("ontospm.txt")},
+                {IRI.create("http://purl.obolibrary.org/obo/fma.owl"),
+                        directory.resolve("fma.txt")},
+                {IRI.create(local.toFile()),
+                        directory.resolve("ontos3pm.txt")}
         };
     }
 
@@ -49,7 +49,7 @@ public class OntologyExtractorTest {
         Main.process(ontology, classes, extractor);
     }
 
-    @Test(enabled = true, dataProvider = "getInformation")
+    @Test(dataProvider = "getInformation")
     public void testOntologyExtractorWithInferences(IRI ontology, Path file)
             throws Exception {
 

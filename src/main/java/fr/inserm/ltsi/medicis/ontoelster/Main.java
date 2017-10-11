@@ -1,22 +1,23 @@
 package fr.inserm.ltsi.medicis.ontoelster;
 
+import org.semanticweb.owlapi.model.IRI;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.semanticweb.owlapi.model.IRI;
 
 /**
- * This program filters selected classes from an existing ontology, saving those
- * in a new ontology file (OWL in RDF/XML format).
+ * OntoElster extract selected classes from an existing ontology. It saves the
+ * filtered  classes in a new ontology file (OWL in RDF/XML format).
  *
  * @author chantal
  */
 public class Main {
 
     /**
-     * Get list of IRIs as Strings and convert them to IRIs
+     * Get list of IRIs as Strings and convert them to IRIs.
      *
      * @param path Path of where the list of classes names (IRIs) are located.
      * @return A list of IRIs mapped from the input file.
@@ -34,12 +35,12 @@ public class Main {
     }
 
     /**
-     * Extract and save the sub-ontology .
+     * Extract and save the sub-ontology.
      *
-     * The resulting ontology is saved as a XML/RDF file is the $CWD
+     * The resulting ontology is saved as a XML/RDF file is the $CWD.
      *
-     * @param ontology IRI (also works as path) of the target ontology
-     * @param classes List of IRIs to extract
+     * @param ontology  IRI (also works as path) of the target ontology
+     * @param classes   List of IRIs to extract
      * @param extractor Implementation of an ontology extractor
      * @throws org.semanticweb.owlapi.model.OWLOntologyCreationException
      * @throws org.semanticweb.owlapi.model.OWLOntologyStorageException
@@ -66,6 +67,7 @@ public class Main {
 
         // Read IRI of target ontology
         IRI ontology = IRI.create(arguments[0]);
+
         // Read file with selected classes       
         Path file = Paths.get(arguments[1]);
         List<IRI> classes = getIRIs(file);

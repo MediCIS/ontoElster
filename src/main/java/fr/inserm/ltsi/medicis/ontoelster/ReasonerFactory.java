@@ -7,7 +7,6 @@ import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
 import uk.ac.manchester.cs.jfact.JFactFactory;
 
 /**
- *
  * @author javier
  */
 public class ReasonerFactory {

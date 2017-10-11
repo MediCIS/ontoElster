@@ -1,13 +1,14 @@
 package fr.inserm.ltsi.medicis.ontoelster;
 
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
+
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Get the (sub)ontology with a ontology reasoner.

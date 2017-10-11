@@ -1,11 +1,11 @@
 package fr.inserm.ltsi.medicis.ontoelster;
 
-import java.util.List;
-import java.util.stream.Stream;
 import org.semanticweb.owlapi.model.IRI;
 
+import java.util.List;
+import java.util.stream.Stream;
+
 /**
- *
  * @author javier
  */
 public class OntologyExtractorWithEquivalences

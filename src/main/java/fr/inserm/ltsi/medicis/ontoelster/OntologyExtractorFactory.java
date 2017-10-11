@@ -3,7 +3,6 @@ package fr.inserm.ltsi.medicis.ontoelster;
 import org.semanticweb.owlapi.model.IRI;
 
 /**
- *
  * @author javier
  */
 public class OntologyExtractorFactory {

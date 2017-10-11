@@ -1,14 +1,16 @@
 package fr.inserm.ltsi.medicis.ontoelster;
 
-import java.nio.file.Path;
-import java.util.List;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLOntology;
 
+import java.nio.file.Path;
+import java.util.List;
+
 /**
- *
  * @author javier
  */
+
+
 public interface OntologyExtractor {
 
     OWLOntology getOntology();

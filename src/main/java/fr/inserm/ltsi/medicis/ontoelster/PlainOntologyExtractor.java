@@ -1,18 +1,14 @@
 package fr.inserm.ltsi.medicis.ontoelster;
 
-import java.nio.file.Path;
-import java.util.List;
-import java.util.stream.Stream;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.formats.RDFXMLDocumentFormat;
 import org.semanticweb.owlapi.io.FileDocumentTarget;
 import org.semanticweb.owlapi.io.OWLOntologyDocumentTarget;
-import org.semanticweb.owlapi.model.AddAxiom;
-import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLAxiom;
-import org.semanticweb.owlapi.model.OWLDocumentFormat;
-import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.*;
+
+import java.nio.file.Path;
+import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * Get a (sub)ontology from a reference using a collection of selected classes.
@@ -108,9 +104,9 @@ public class PlainOntologyExtractor
     /**
      * Use a stream to apply changes into the sub-ontology member class.
      *
-     * @param <T> Sub-type of OWLAxiom.
+     * @param <T>         Sub-type of OWLAxiom.
      * @param axiomStream Stream from where the axioms are obtained and update
-     * the changes using the manager of the class.
+     *                    the changes using the manager of the class.
      */
     protected <T extends OWLAxiom> void addAxioms(Stream<T> axiomStream) {
 
