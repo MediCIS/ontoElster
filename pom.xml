@@ -61,6 +61,7 @@
                     <archive>
                         <manifest>
                             <mainClass>fr.inserm.ltsi.medicis.ontoelster.Main</mainClass>
+                            <addClasspath>true</addClasspath>
                         </manifest>
                     </archive>
                 </configuration>
